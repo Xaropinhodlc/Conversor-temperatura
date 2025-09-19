@@ -1,0 +1,374 @@
+/* Importação da fonte 'Poppins' do Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* Variáveis de cores para fácil manutenção */
+:root {
+    --primary-color: #3f51b5; /* Azul índigo */
+    --secondary-color: #607d8b; /* Azul ardósia */
+    --accent-color-1: #ff5252; /* Vermelho vibrante para contraste */
+    --accent-color-2: #ffc107; /* Amarelo quente */
+    --background-light: #f4f6f9; /* Cinza claro para elementos */
+    --background-dark: #e1e6ee; /* Cinza um pouco mais escuro */
+    --text-primary: #34495e; /* Cinza escuro para texto principal */
+    --text-secondary: #7f8c8d; /* Cinza médio para texto secundário */
+    --btn-neutral: #ecf0f1; /* Cinza claro para botões numéricos */
+    --btn-clear: #e74c3c; /* Vermelho para botão de limpar */
+    --success-color: #27ae60; /* Verde para sucesso */
+    --error-color: #c0392b; /* Vermelho para erro */
+    --container-bg: #ffffff; /* Fundo do container principal */
+    --clear-btn-text: #95a5a6; /* Cor do texto do botão limpar */
+}
+
+/* Estilo geral da página */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+
+    /* Gradiente de fundo com múltiplas cores e direção */
+    background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); /* Gradiente principal suave */
+    position: relative; /* Para posicionar pseudo-elementos */
+    z-index: 1; /* Garante que o conteúdo fique por cima */
+}
+
+/* Pseudo-elementos para formas abstratas no fundo */
+body::before,
+body::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%; /* Fazem os elementos circulares */
+    filter: blur(80px); /* Suaviza as bordas */
+    opacity: 0.6; /* Transparência */
+    z-index: -1; /* Ficam abaixo do conteúdo */
+}
+
+body::before {
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(45deg, var(--accent-color-1), var(--primary-color));
+    top: 10%;
+    left: 15%;
+    animation: float1 10s ease-in-out infinite alternate;
+}
+
+body::after {
+    width: 250px;
+    height: 250px;
+    background: linear-gradient(135deg, var(--accent-color-2), var(--secondary-color));
+    bottom: 15%;
+    right: 10%;
+    animation: float2 12s ease-in-out infinite alternate-reverse;
+}
+
+/* Animações para os pseudo-elementos */
+@keyframes float1 {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(20px, 30px) scale(1.1); }
+}
+
+@keyframes float2 {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(-25px, -15px) scale(1.05); }
+}
+
+/* Container principal da calculadora */
+.container {
+    background-color: var(--container-bg);
+    padding: 2.5rem;
+    border-radius: 2rem;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15), 
+                inset 0 0.2rem 0.5rem rgba(255, 255, 255, 0.6); /* Sombra interna mais pronunciada */
+    text-align: center;
+    width: 100%;
+    max-width: 25rem;
+    border: 1px solid #e0e0e0;
+    position: relative; /* Para z-index se necessário */
+    z-index: 2; /* Garante que a calculadora esteja acima dos pseudo-elementos */
+}
+
+/* Título */
+h2 {
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+/* Campo de entrada de dados */
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    text-align: left;
+}
+
+#celsiusInput {
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    border-radius: 0.75rem;
+    font-size: 1.5rem;
+    text-align: right;
+    background-color: var(--btn-neutral);
+    color: var(--text-primary);
+    box-sizing: border-box;
+    box-shadow: inset 0 0.2rem 0.4rem rgba(0, 0, 0, 0.08); /* Sombra interna mais visível */
+}
+
+/* Acessibilidade: estilo de foco para o input */
+#celsiusInput:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Estilo do teclado numérico */
+.keypad {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.keypad-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.keypad-btn {
+    width: 100%;
+    height: 4rem;
+    font-size: 1.6rem;
+    font-weight: 500;
+    background-color: var(--btn-neutral);
+    color: var(--text-primary);
+    border: none;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.08);
+}
+
+.keypad-btn:hover {
+    background-color: #d1d5db;
+    box-shadow: 0 0.375rem 0.75rem rgba(0, 0, 0, 0.12);
+}
+
+.keypad-btn:active {
+    transform: scale(0.95);
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
+}
+
+/* Acessibilidade: estilo de foco para os botões do teclado */
+.keypad-btn:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+.keypad-btn.clear {
+    background-color: var(--btn-clear);
+    color: #fff;
+}
+
+.keypad-btn.clear:hover {
+    background-color: #e63946;
+}
+
+/* Grupo de botões de conversão */
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+button {
+    flex-grow: 1;
+    color: #fff;
+    border: none;
+    padding: 1rem 1.25rem;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    box-shadow: 0 0.375rem 0.75rem rgba(0, 0, 0, 0.15);
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+/* Acessibilidade: estilo de foco para os botões de conversão */
+button:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+#converterFahrenheitBtn {
+    background-color: var(--primary-color);
+}
+
+#converterFahrenheitBtn:hover {
+    background-color: #303f9f;
+}
+
+#converterKelvinBtn {
+    background-color: var(--secondary-color);
+}
+
+#converterKelvinBtn:hover {
+    background-color: #455a64;
+}
+
+#converterCelsiusBtn {
+    background-color: #4CAF50;
+}
+
+#converterCelsiusBtn:hover {
+    background-color: #45a049;
+}
+
+/* Estilo para a seção de resultado */
+.resultado {
+    margin-top: 1.5rem;
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+#resultado {
+    font-weight: bold;
+    color: var(--success-color);
+}
+
+/* Estilo para a seção do histórico */
+.history-section {
+    margin-top: 2rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid #e0e0e0;
+    text-align: left;
+}
+
+.history-section h3 {
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+#historyList {
+    list-style-type: none;
+    padding: 0;
+    max-height: 12.5rem;
+    overflow-y: auto;
+}
+
+#historyList li {
+    background-color: var(--btn-neutral);
+    border-radius: 0.6rem;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.6rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1rem;
+    color: var(--text-secondary);
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.05);
+}
+
+#historyList li strong {
+    color: var(--primary-color);
+}
+
+/* Estilo para o botão "Limpar Histórico" */
+#clearHistoryBtn {
+    background-color: #f0f0f0;
+    color: var(--clear-btn-text); /* Usando variável para consistência */
+    border: 1px solid #dcdcdc;
+    margin-top: 1rem;
+    padding: 0.75rem 1rem;
+    width: 100%;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+}
+
+#clearHistoryBtn:hover {
+    background-color: #e0e0e0;
+    border-color: #c0c0c0;
+}
+
+/* Estilo da barra de rolagem */
+#historyList::-webkit-scrollbar {
+    width: 0.5rem;
+}
+
+#historyList::-webkit-scrollbar-track {
+    background: var(--background-dark);
+    border-radius: 0.6rem;
+}
+
+#historyList::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 0.6rem;
+}
+
+#historyList::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Media Queries para responsividade em telas pequenas */
+@media (max-width: 600px) {
+    .container {
+        padding: 1.5rem;
+        border-radius: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+    }
+
+    #celsiusInput {
+        font-size: 1.25rem;
+        padding: 0.8rem;
+    }
+
+    .keypad-btn {
+        height: 3.5rem;
+        font-size: 1.4rem;
+    }
+
+    .button-group button {
+        padding: 0.8rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .resultado {
+        font-size: 1.1rem;
+    }
+
+    /* Ajuste para os pseudo-elementos em telas menores */
+    body::before,
+    body::after {
+        width: 150px;
+        height: 150px;
+        filter: blur(60px);
+        opacity: 0.5;
+    }
+}
