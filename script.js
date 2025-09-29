@@ -136,30 +136,45 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Lógica para o teclado do computador
+    // Lógica para o teclado do computador (e celular)
     document.addEventListener('keydown', function(event) {
         const key = event.key;
         
-        if (/[0-9]/.test(key)) {
-            celsiusInput.value += key;
-        } else if (key === '.' || key === ',') {
-            if (!celsiusInput.value.includes('.')) {
-                celsiusInput.value += '.';
-            }
-        } else if (key === 'Backspace') {
+        // Se o foco está no input e a tecla pressionada é para digitação (um único caractere), prevenimos.
+        if (event.target === celsiusInput && key.length === 1 && !event.ctrlKey) {
+            // Isso previne que o usuário digite letras, números ou símbolos diretamente.
+            // O código abaixo controla quais teclas são permitidas para atalho.
+            event.preventDefault(); 
+        }
+
+        // Permitir a função de Backspace
+        if (key === 'Backspace') {
             celsiusInput.value = celsiusInput.value.slice(0, -1);
-        } else if (key.toLowerCase() === 'f' || key === 'Enter') {
+        }
+        
+        // Atribui 'F' ou 'Enter' à conversão de Celsius para Fahrenheit
+        else if (key.toLowerCase() === 'f' || key === 'Enter') {
             event.preventDefault();
             convertToFahrenheit();
-        } else if (key.toLowerCase() === 'k') {
+        }
+        // Atribui 'K' à conversão de Celsius para Kelvin
+        else if (key.toLowerCase() === 'k') {
             event.preventDefault();
             convertToKelvin();
-        } else if (key.toLowerCase() === 'c') {
+        }
+        // Atribui 'C' à conversão de Fahrenheit para Celsius
+        else if (key.toLowerCase() === 'c') {
             event.preventDefault();
             convertToCelsius();
         }
+        // Permite a digitação de números e ponto (opcional, se você quiser permitir o teclado físico)
+        else if (event.target === celsiusInput && (/[0-9]/.test(key) || key === '.' || key === ',')) {
+            if (key === ',') key = '.'; // Normaliza a vírgula para ponto
+            if (key === '.' && celsiusInput.value.includes('.')) return; // Evita dois pontos
+            celsiusInput.value += key;
+        }
     });
-
+    
     // Eventos de clique para os botões de conversão e limpeza
     converterFahrenheitBtn.addEventListener('click', convertToFahrenheit);
     converterCelsiusBtn.addEventListener('click', convertToCelsius);
